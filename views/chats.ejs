@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💬 Chat Logs</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Chat Messages 💬</h1>
+    <form action="/chats/new" method="POST">
+      <input type="text" name="from" placeholder="From" required>
+      <input type="text" name="to" placeholder="To" required>
+      <input type="text" name="msg" placeholder="Message" required>
+      <button type="submit">Send</button>
+    </form>
+    <div class="chat-box">
+      <% allChats.forEach(chat => { %>
+        <div class="chat-message">
+          <p><span class="from"><%= chat.from %></span> ➡ <span class="to"><%= chat.to %></span></p>
+          <p class="msg">"<%= chat.msg %>"</p>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>
