@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Chat</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f7f9fc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .edit-container {
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+      }
+
+      h3 {
+        font-size: 22px;
+        color: #2b4f81;
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 15px;
+        color: #555;
+        margin-bottom: 20px;
+      }
+
+      form div {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 15px;
+      }
+
+      button {
+        background-color: #2b4f81;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #1f3b60;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="edit-container">
+      <h3>Edit Your Chat: <%= chat._id %></h3>
+      <p>This chat was sent from <strong><%= chat.from %></strong> to <strong><%= chat.to %></strong></p>
+
+      <form action="/chats/<%= chat._id %>?_method=PUT" method="POST">
+        <div>
+          <label for="msg">Message:</label>
+          <input type="text" id="msg" name="newMsg" value="<%= chat.msg %>" required />
+        </div>
+        <button type="submit">Update Chat</button>
+      </form>
+    </div>
+  </body>
+</html>

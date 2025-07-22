@@ -2,15 +2,16 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const path = require("path");
-const chat = require('./models/chat');
+const chat = require("./models/chat");
 const Chat = require("./models/chat");
 const { default: mongoose } = require("mongoose");
+const methodOverride = require("method-override");
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
-
-
+app.use(express.json());
+app.use(methodOverride("_method"));
 const post = [
   {
     postId: 101,
@@ -64,44 +65,90 @@ const post = [
 ];
 async function main() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/whatsapp');
+    await mongoose.connect("mongodb://localhost:27017/whatsapp");
     console.log("Connected to MongoDB successfully");
-
-
   } catch (err) {
     console.error("Error:", err);
   }
 }
 
 main();
+
+// Home Page - Posts Feed
 app.get("/", (req, res) => {
   res.render("index.ejs", { post });
 });
 
-
-
+// Show All Chats
 app.get("/chats", async (req, res) => {
   try {
-    const allChats = await Chat.find(); 
+    const allChats = await Chat.find();
     res.render("chats.ejs", { allChats });
-    console.log(allChats);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 });
-app.get("/chats/new", async (req, res) => {
+
+// Render Form to Create New Chat
+app.get("/chats/new", (req, res) => {
+  res.render("new.ejs");
+});
+
+// Create New Chat
+app.post("/chats", async (req, res) => {
   try {
-    const allChats = await Chat.find(); 
-    res.render("chats.ejs", { allChats });
-    console.log(allChats);
+    const { from, to, msg } = req.body;
+    await Chat.create({ from, to, msg });
+
+    // Redirect to show updated chat list
+    res.redirect("/chats");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 });
 
+// Render Edit Form for Specific Chat
+app.get("/chats/:id/edit", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const chat = await Chat.findById(id);
+    if (!chat) return res.status(404).send("Chat not found");
+    res.render("edit.ejs", { chat });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
 
+// Update Chat Message
+app.put("/chats/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newMsg } = req.body;
+
+    const updateChat = await Chat.findByIdAndUpdate(id, { msg: newMsg }, { new: true });
+    console.log("Updated Chat:", updateChat);
+
+    res.redirect("/chats");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+//Delete Chats
+app.delete("/chats/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    // console.log("Deleting Chat with ID:", id);
+    await Chat.findByIdAndDelete(id);
+    res.redirect("/chats");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

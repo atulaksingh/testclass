@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>💬 Chat Logs</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Chat Messages 💬</h1>
-    <form action="/chats/new" method="POST">
-      <input type="text" name="from" placeholder="From" required>
-      <input type="text" name="to" placeholder="To" required>
-      <input type="text" name="msg" placeholder="Message" required>
-      <button type="submit">Send</button>
-    </form>
-    <div class="chat-box">
-      <% allChats.forEach(chat => { %>
+  <head>
+    <meta charset="UTF-8" />
+    <title>💬 Chat Logs</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chat Messages 💬</h1>
+      <form action="/chats/new" method="get">
+        <button type="submit">new chats</button>
+      </form>
+      <div class="chat-box">
+        <% allChats.forEach(chat => { %>
         <div class="chat-message">
-          <p><span class="from"><%= chat.from %></span> ➡ <span class="to"><%= chat.to %></span></p>
+          <p>
+            <span class="from"><%= chat.from %></span> ➡
+            <span class="to"><%= chat.to %></span>
+          </p>
           <p class="msg">"<%= chat.msg %>"</p>
+          <p class="time">
+            🕒 <%= new Date(chat.createdAt).toLocaleString('en-IN', { timeZone:
+            'Asia/Kolkata' }) %>
+          </p>
+        </br>
+          <form method="get" action="/chats/<%= chat._id %>/edit">
+            <button>edit</button>
+          </form>
+          <form method="post" action="/chats/<%= chat._id %>?_method=DELETE">
+            <button>Delete</button>
+          </form>
         </div>
-      <% }); %>
+        <% }); %>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

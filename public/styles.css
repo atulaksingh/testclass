@@ -1,50 +1,94 @@
-body {
-  background-color: #f4f7fa;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Reset some default styles */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f4f8;
+  color: #333;
+  padding: 20px;
 }
 
 .container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 0 12px rgba(0,0,0,0.1);
-  border-radius: 8px;
+  max-width: 900px;
+  margin: auto;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
-  color: #2B4F81;
   margin-bottom: 30px;
+  color: #2b4f81;
 }
 
 .chat-box {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 20px;
+  max-height: 600px; /* Prevent too long page */
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .chat-message {
-  border-left: 5px solid #2B4F81;
-  background-color: #f0f4f8;
-  padding: 15px 20px;
-  border-radius: 6px;
-  transition: background 0.3s;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #f9f9ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s;
 }
 
 .chat-message:hover {
-  background-color: #e0ecf7;
+  background-color: #eef2ff;
 }
 
-.from, .to {
+.from {
   font-weight: bold;
-  color: #1f355e;
+  color: #1976d2;
+}
+
+.to {
+  font-weight: bold;
+  color: #d32f2f;
 }
 
 .msg {
-  font-style: italic;
+  font-size: 1.1rem;
+  margin: 10px 0;
   color: #333;
-  margin-top: 5px;
+}
+
+.time {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+form {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #115293;
+}
+
+button[type="submit"] {
+  margin-bottom: 20px;
 }
