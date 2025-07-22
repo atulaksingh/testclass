@@ -11,26 +11,39 @@
         padding: 0;
       }
 
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f7f9fc;
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #e0eafc, #cfdef3);
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         height: 100vh;
       }
 
       .edit-container {
         background: #fff;
-        padding: 30px 40px;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        padding: 35px 45px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         width: 100%;
-        max-width: 500px;
+        max-width: 550px;
+        animation: fadeIn 0.4s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       h3 {
-        font-size: 22px;
+        font-size: 24px;
         color: #2b4f81;
         margin-bottom: 10px;
       }
@@ -38,7 +51,7 @@
       p {
         font-size: 15px;
         color: #555;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
       }
 
       form div {
@@ -47,28 +60,36 @@
 
       label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         font-weight: 600;
         color: #333;
       }
 
-      input[type="text"] {
+      textarea {
         width: 100%;
-        padding: 10px 15px;
+        min-height: 120px;
+        padding: 12px 15px;
         border: 1px solid #ccc;
-        border-radius: 8px;
+        border-radius: 10px;
         font-size: 15px;
+        resize: vertical;
+        transition: border-color 0.3s;
+      }
+
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
       }
 
       button {
-        background-color: #2b4f81;
+        background-color: #1976d2;
         color: #fff;
-        padding: 12px 20px;
+        padding: 12px 25px;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        font-size: 15px;
-        transition: background-color 0.3s;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
       }
 
       button:hover {
@@ -83,8 +104,8 @@
 
       <form action="/chats/<%= chat._id %>?_method=PUT" method="POST">
         <div>
-          <label for="msg">Message:</label>
-          <input type="text" id="msg" name="newMsg" value="<%= chat.msg %>" required />
+          <label for="msg">Edit Message:</label>
+          <textarea id="msg" name="newMsg" required><%= chat.msg %></textarea>
         </div>
         <button type="submit">Update Chat</button>
       </form>

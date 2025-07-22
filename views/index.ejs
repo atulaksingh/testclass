@@ -2,16 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Posts</title>
+    <title>💬 Chat Logs</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Quora Posts</h1>
-    <% for (post of post ) {%>
-    <div>
-        <h3>@ <%= post.username %></h3>
-        <h5>@ <%= post.content %></h5>
+    <div class="container">
+      <h1>Chat Messages 💬</h1>
+      <form action="/chats/new" method="get">
+        <button type="submit">new chats</button>
+      </form>
+      <div class="chat-box">
+        <% allChats.forEach(chat => { %>
+        <div class="chat-message">
+          <p>
+            <span class="from"><%= chat.from %></span> ➡
+            <span class="to"><%= chat.to %></span>
+          </p>
+          <p class="msg">"<%= chat.msg %>"</p>
+          <p class="time">
+            🕒 <%= new Date(chat.createdAt).toLocaleString('en-IN', { timeZone:
+            'Asia/Kolkata' }) %>
+          </p>
+        </br>
+          <form method="get" action="/chats/<%= chat._id %>/edit">
+            <button>edit</button>
+          </form>
+          <form method="post" action="/chats/<%= chat._id %>?_method=DELETE">
+            <button>Delete</button>
+          </form>
+        </div>
+        <% }); %>
+      </div>
     </div>
-    <%}%>
   </body>
 </html>

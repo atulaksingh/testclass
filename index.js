@@ -75,15 +75,15 @@ async function main() {
 main();
 
 // Home Page - Posts Feed
-app.get("/", (req, res) => {
-  res.render("index.ejs", { post });
-});
+// app.get("/", (req, res) => {
+//   res.render("index.ejs", { post });
+// });
 
 // Show All Chats
-app.get("/chats", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const allChats = await Chat.find();
-    res.render("chats.ejs", { allChats });
+    res.render("index.ejs", { allChats });
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
@@ -102,7 +102,7 @@ app.post("/chats", async (req, res) => {
     await Chat.create({ from, to, msg });
 
     // Redirect to show updated chat list
-    res.redirect("/chats");
+    res.redirect("/");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
@@ -131,7 +131,7 @@ app.put("/chats/:id", async (req, res) => {
     const updateChat = await Chat.findByIdAndUpdate(id, { msg: newMsg }, { new: true });
     console.log("Updated Chat:", updateChat);
 
-    res.redirect("/chats");
+    res.redirect("/");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
@@ -143,7 +143,7 @@ app.delete("/chats/:id", async (req, res) => {
     const { id } = req.params;
     // console.log("Deleting Chat with ID:", id);
     await Chat.findByIdAndDelete(id);
-    res.redirect("/chats");
+    res.redirect("/");
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
