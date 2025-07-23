@@ -3,6 +3,7 @@ const app = express();
 const port = 8080;
 const path = require("path");
 const chat = require("./models/chat");
+require("dotenv").config();
 const Chat = require("./models/chat");
 const { default: mongoose } = require("mongoose");
 const methodOverride = require("method-override");
@@ -65,7 +66,7 @@ const post = [
 ];
 async function main() {
   try {
-    await mongoose.connect("mongodb://localhost:27017/whatsapp");
+   await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB successfully");
   } catch (err) {
     console.error("Error:", err);
